@@ -19,6 +19,7 @@
     <style>
         .user-logOut {
             display: inline-block;
+            margin-bottom: 5px;
             font-family: Arial, serif;
         }
     </style>
@@ -33,7 +34,8 @@
         <a href="/logout" class="btn btn-warning user-logOut"> Logout </a> Welcome ${username}
     </div>
     <!-- Button trigger modal -->
-    <nav class="navbar navbar-light bg-light justify-content-between">
+    <nav class="navbar navbar-light bg-light justify-content-between"
+         style="height: 60px;">
         <button type="button" class="btn btn-success mb-4 text-white" data-toggle="modal" data-target="#exampleModal">
             ➕ Add
         </button>
@@ -142,6 +144,17 @@
             </div>
         </div>
     </c:forEach>
+    <div style="margin-top: 10px">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

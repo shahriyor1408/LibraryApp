@@ -6,6 +6,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
+import uz.jl.lessontwo.domain.Book;
+import uz.jl.lessontwo.domain.Uploads;
 import uz.jl.lessontwo.domain.User;
 
 import java.util.HashMap;
@@ -48,6 +50,8 @@ public class HibernateConfigurer {
                 registry = registryBuilder.build();
                 MetadataSources sources = new MetadataSources(registry)
                         .addAnnotatedClass(User.class);
+                sources.addAnnotatedClass(Book.class);
+                sources.addAnnotatedClass(Uploads.class);
                 Metadata metadata = sources.getMetadataBuilder().build();
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
             } catch (Exception e) {

@@ -21,7 +21,6 @@ public class UserDao implements Dao {
     }
 
     public User findByUsername(String username) {
-
         SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.getTransaction().begin();

@@ -13,7 +13,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<div class="row">
+<div class="row" style="margin-top: 120px;margin-right: 200px; margin-left: 200px">
     <div class="col-6 offset-3">
         <form method="post">
 
@@ -25,7 +25,7 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="password" id="password" placeholder="Password">
             </div>
-            <div class="form-check">
+            <div class="form-check" style="margin-bottom: 20px">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div>

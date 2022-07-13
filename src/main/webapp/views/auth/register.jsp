@@ -13,7 +13,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<div class="row">
+<div class="row" style="margin-top: 120px;margin-right: 200px; margin-left: 200px">
     <div class="col-6 offset-3">
         <form method="post">
             <div class="form-group">
@@ -26,7 +26,8 @@
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
-                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Password">
+                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
+                       placeholder="Password">
             </div>
             <button type="submit" class="btn btn-primary">Sign up</button>
             <a href="/login" class="btn btn-warning">Login</a>

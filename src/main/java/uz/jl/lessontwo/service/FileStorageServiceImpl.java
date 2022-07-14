@@ -1,7 +1,5 @@
 package uz.jl.lessontwo.service;
 
-import lombok.Value;
-import uz.jl.lessontwo.configs.ApplicationContextHolder;
 import uz.jl.lessontwo.dao.BookDao;
 import uz.jl.lessontwo.domain.Uploads;
 

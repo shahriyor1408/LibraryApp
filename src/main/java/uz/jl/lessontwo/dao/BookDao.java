@@ -23,8 +23,8 @@ public class BookDao implements Dao {
         SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.getTransaction().begin();
-        Query<Book> query = currentSession.createQuery("from Book t where lower(t.name) like lower(:('%' + search + '%'))", Book.class);
-        query.setParameter("search", search);
+        Query<Book> query = currentSession.createQuery("select t from Book t where lower(t.name) like :query", Book.class);
+        query.setParameter("query", "%" + search + "%");
         List<Book> books = query.getResultList();
         currentSession.getTransaction().commit();
         currentSession.close();
@@ -53,8 +53,8 @@ public class BookDao implements Dao {
         SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.getTransaction().begin();
-        Query<Book> query = currentSession.createQuery("from Book t where lower(t.name) like lower(%:search%)", Book.class);
-        query.setParameter("search", search);
+        Query<Book> query = currentSession.createQuery("select t from Book t where lower(t.name) like :query", Book.class);
+        query.setParameter("query", "%" + search + "%");
         query.setFirstResult(i);
         query.setMaxResults(recordsPerPage);
         List<Book> books = query.getResultList();

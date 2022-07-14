@@ -11,10 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Stream;
 
 @WebServlet("/")
 public class HomeServlet extends HttpServlet {
@@ -24,14 +22,30 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String authSession = (String) session.getAttribute("auth_session");
-
-        List<Book> books = bookDao.getAll();
+        String search = req.getParameter("search");
+        if (Objects.isNull(search)) {
+            search = "";
+        }
+        List<Book> books = bookDao.getAll(search);
 
         if (Objects.nonNull(authSession)) {
+            req.setAttribute("search", search);
             req.setAttribute("username", req.getSession().getAttribute("auth_session"));
-            req.setAttribute("books", books);
             req.setAttribute("genres", Book.Genre.values());
             req.setAttribute("languages", Language.values());
+
+            int page = 1;
+            int recordsPerPage = 6;
+            if (req.getParameter("page") != null)
+                page = Integer.parseInt(req.getParameter("page"));
+
+            List<Book> list = bookDao.viewAllBooks((page - 1) * recordsPerPage, recordsPerPage,search);
+            int noOfRecords = books.size();
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+            req.setAttribute("books", list);
+            req.setAttribute("noOfPages", noOfPages);
+            req.setAttribute("currentPage", page);
+
             RequestDispatcher dispatcher = req.getRequestDispatcher("views/main.jsp");
             dispatcher.forward(req, resp);
         } else {

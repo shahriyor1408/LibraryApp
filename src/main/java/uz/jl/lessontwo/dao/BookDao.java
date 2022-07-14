@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import uz.jl.lessontwo.configs.HibernateConfigurer;
 import uz.jl.lessontwo.domain.Book;
+import uz.jl.lessontwo.domain.Uploads;
 
 import java.util.List;
 
@@ -18,11 +19,12 @@ public class BookDao implements Dao {
         return instance;
     }
 
-    public List<Book> getAll() {
+    public List<Book> getAll(String search) {
         SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.getTransaction().begin();
-        Query<Book> query = currentSession.createQuery("select t from Book t", Book.class);
+        Query<Book> query = currentSession.createQuery("from Book t where lower(t.name) like lower(:('%' + search + '%'))", Book.class);
+        query.setParameter("search", search);
         List<Book> books = query.getResultList();
         currentSession.getTransaction().commit();
         currentSession.close();
@@ -36,5 +38,28 @@ public class BookDao implements Dao {
         currentSession.persist(book);
         currentSession.getTransaction().commit();
         currentSession.close();
+    }
+
+    public void save(Uploads uploads) {
+        SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
+        Session currentSession = sessionFactory.getCurrentSession();
+        currentSession.getTransaction().begin();
+        currentSession.persist(uploads);
+        currentSession.getTransaction().commit();
+        currentSession.close();
+    }
+
+    public List<Book> viewAllBooks(int i, int recordsPerPage, String search) {
+        SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
+        Session currentSession = sessionFactory.getCurrentSession();
+        currentSession.getTransaction().begin();
+        Query<Book> query = currentSession.createQuery("from Book t where lower(t.name) like lower(%:search%)", Book.class);
+        query.setParameter("search", search);
+        query.setFirstResult(i);
+        query.setMaxResults(recordsPerPage);
+        List<Book> books = query.getResultList();
+        currentSession.getTransaction().commit();
+        currentSession.close();
+        return books;
     }
 }

@@ -6,16 +6,20 @@ import uz.jl.lessontwo.domain.Book;
 import uz.jl.lessontwo.domain.Uploads;
 import uz.jl.lessontwo.enums.BookStatus;
 import uz.jl.lessontwo.enums.Language;
+import uz.jl.lessontwo.service.FileStorageService;
+import uz.jl.lessontwo.service.FileStorageServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
 
 @WebServlet("/bookAdd")
 public class BookAddServlet extends HttpServlet {
+    private final FileStorageService fileStorageService = new FileStorageServiceImpl();
     BookDao bookDao = ApplicationContextHolder.getBean(BookDao.class);
 
     @Override
@@ -26,6 +30,10 @@ public class BookAddServlet extends HttpServlet {
         String language = req.getParameter("language");
         String description = req.getParameter("description");
         String pageCount = req.getParameter("pageCount");
+        Part file = req.getPart("file");
+        Part cover = req.getPart("cover");
+        Uploads fileUpload = fileStorageService.upload(file);
+        Uploads coverUpload = fileStorageService.upload(cover);
         Book book = Book.builder()
                 .name(name)
                 .author(author)

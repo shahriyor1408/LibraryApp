@@ -22,6 +22,10 @@
             margin-bottom: 5px;
             font-family: Arial, serif;
         }
+
+        .text {
+            display: block;
+        }
     </style>
 
 </head>
@@ -40,8 +44,10 @@
             ➕ Add
         </button>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
+                   value="${search}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search
+            </button>
         </form>
     </nav>
     <%--   --%>
@@ -123,20 +129,19 @@
     </div>
 </div>
 
-
 <div class="row m-4">
     <c:forEach items="${books}" var="book">
         <div class="col-2">
             <div class="card p-2" style="background-color: #e5e3e3">
                 <img class="card-img-top" src="" width="140" height="250" alt="${book.name}">
                 <div class="card-body">
-                    <h5 class="card-title" c:value="${book.name}"></h5>
-                    <i style="display:block;">author : <i>${book.author}</i></i>
-                    <i style="display:block;">description : <i>${book.description}</i></i>
-                    <i style="display:block;">genre : <i>${book.genre}</i></i>
-                    <i style="display:block;">language : <i>${book.language}</i></i>
-                    <i style="display:block;">pageCount : <i>${book.pageCount}</i></i>
-                    <i style="display:block;">downloadCount : <i>${book.downloadCount}</i></i>
+                    <h5 class="card-title" c:value="${book.name}">${book.name}</h5>
+                    <i class="text">author : <i>${book.author}</i></i>
+                    <i class="text">description : <i>${book.description}</i></i>
+                    <i class="text">genre : <i>${book.genre.getKey()}</i></i>
+                    <i class="text">language : <i>${book.language.getValue()}</i></i>
+                    <i class="text">pageCount : <i>${book.pageCount}</i></i>
+                    <i class="text">downloadCount : <i>${book.downloadCount}</i></i>
                     <a href="#">Download Cover</a>
                     <br/>
                     <a href="#">Download Book</a>
@@ -144,17 +149,37 @@
             </div>
         </div>
     </c:forEach>
-    <div style="margin-top: 10px">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav>
-    </div>
+</div>
+<div style="margin-top: 10px">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+
+            <c:if test="${currentPage != 1}">
+                <td><a href="book?page=${currentPage - 1}">Previous</a></td>
+            </c:if>
+
+            <table border="1" cellpadding="5" cellspacing="5">
+                <tr>
+                    <c:forEach begin="1" end="${noOfPages}" var="i">
+                        <c:choose>
+                            <c:when test="${currentPage eq i}">
+                                <td>${i}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><a href="book?page=${i}">${i}</a></td>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </tr>
+            </table>
+
+            <%--For displaying Next link --%>
+            <c:if test="${currentPage lt noOfPages}">
+                <td><a href="book?page=${currentPage + 1}">Next</a></td>
+            </c:if>
+
+        </ul>
+    </nav>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

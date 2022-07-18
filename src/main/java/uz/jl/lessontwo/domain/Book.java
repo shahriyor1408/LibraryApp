@@ -31,6 +31,11 @@ public class Book {
     private Language language;
     private int pageCount;
     private int downloadCount;
+    @OneToOne
+    private Uploads cover;
+
+    @OneToOne
+    private Uploads file;
 
     @AllArgsConstructor
     @Getter

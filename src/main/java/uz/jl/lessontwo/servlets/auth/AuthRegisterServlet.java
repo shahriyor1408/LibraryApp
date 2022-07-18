@@ -4,6 +4,7 @@ import uz.jl.lessontwo.configs.ApplicationContextHolder;
 import uz.jl.lessontwo.configs.PasswordEncoder;
 import uz.jl.lessontwo.dao.UserDao;
 import uz.jl.lessontwo.domain.User;
+import uz.jl.lessontwo.enums.UserStatus;
 import uz.jl.lessontwo.exceptions.InvalidInputException;
 
 import javax.servlet.RequestDispatcher;
@@ -37,6 +38,7 @@ public class AuthRegisterServlet extends HttpServlet {
         user = User.builder()
                 .username(username)
                 .password(PasswordEncoder.encode(password))
+                .userStatus(UserStatus.USER)
                 .build();
         userDao.save(user);
 

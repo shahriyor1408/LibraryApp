@@ -2,6 +2,7 @@ package uz.jl.lessontwo.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import uz.jl.lessontwo.enums.UserStatus;
 
 
 @Data
@@ -21,4 +22,7 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
 }

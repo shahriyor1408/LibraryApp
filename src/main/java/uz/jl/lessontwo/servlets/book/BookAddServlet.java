@@ -10,6 +10,7 @@ import uz.jl.lessontwo.service.FileStorageService;
 import uz.jl.lessontwo.service.FileStorageServiceImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +19,13 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 
 @WebServlet("/bookAdd")
+@MultipartConfig
 public class BookAddServlet extends HttpServlet {
-    private final FileStorageService fileStorageService = new FileStorageServiceImpl();
+    FileStorageService fileStorageService = ApplicationContextHolder.getBean(FileStorageServiceImpl.class);
     BookDao bookDao = ApplicationContextHolder.getBean(BookDao.class);
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String author = req.getParameter("author");
         String genre = req.getParameter("genre");
@@ -42,7 +44,9 @@ public class BookAddServlet extends HttpServlet {
                 .downloadCount(0)
                 .language(Enum.valueOf(Language.class, language))
                 .pageCount(Integer.parseInt(pageCount))
-                .status(BookStatus.ACTIVE)
+                .status(BookStatus.PENDING)
+                .file(fileUpload)
+                .cover(coverUpload)
                 .build();
         bookDao.save(book);
         resp.sendRedirect("/");

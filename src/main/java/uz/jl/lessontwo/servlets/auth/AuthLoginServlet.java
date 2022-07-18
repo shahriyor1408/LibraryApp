@@ -5,6 +5,7 @@ import uz.jl.lessontwo.configs.PasswordEncoder;
 import uz.jl.lessontwo.dao.UserDao;
 import uz.jl.lessontwo.domain.User;
 import uz.jl.lessontwo.dto.ErrorDto;
+import uz.jl.lessontwo.enums.UserStatus;
 import uz.jl.lessontwo.exceptions.AuthenticationException;
 import uz.jl.lessontwo.exceptions.AuthorizationException;
 import uz.jl.lessontwo.exceptions.NotFoundException;

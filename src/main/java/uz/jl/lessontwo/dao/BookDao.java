@@ -62,4 +62,16 @@ public class BookDao implements Dao {
         currentSession.close();
         return books;
     }
+
+    public Uploads getByPath(String requestedFile) {
+        SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
+        Session currentSession = sessionFactory.getCurrentSession();
+        currentSession.getTransaction().begin();
+        Query<Uploads> query = currentSession.createQuery("select t from Uploads t where t.path like :query", Uploads.class);
+        query.setParameter("query", requestedFile);
+        Uploads result = query.getSingleResult();
+        currentSession.getTransaction().commit();
+        currentSession.close();
+        return result;
+    }
 }

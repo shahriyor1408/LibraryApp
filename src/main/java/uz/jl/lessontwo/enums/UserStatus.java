@@ -12,7 +12,6 @@ import lombok.Getter;
 @Getter
 public enum UserStatus {
     USER(50),
-    ADMIN(75),
-    SUPER_ADMIN(100);
+    ADMIN(75);
     private final Integer priority;
 }

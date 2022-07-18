@@ -1,6 +1,8 @@
 package uz.jl.lessontwo.service;
 
+import uz.jl.lessontwo.configs.ApplicationContextHolder;
 import uz.jl.lessontwo.dao.BookDao;
+import uz.jl.lessontwo.dao.Dao;
 import uz.jl.lessontwo.domain.Uploads;
 
 import javax.servlet.http.Part;
@@ -9,22 +11,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
-public class FileStorageServiceImpl implements FileStorageService {
-    BookDao bookDao;
-    private static final Path rootPath = Path.of("apps/libAppEE/uploads");
+public class FileStorageServiceImpl implements FileStorageService, Dao {
 
-    static {
-        if (!Files.exists(rootPath)) {
-            try {
-                Files.createDirectories(rootPath);
-            } catch (IOException e) {
-                throw new RuntimeException("");
-            }
+    private static FileStorageServiceImpl instance;
+
+    public static FileStorageServiceImpl getInstance() {
+        if (instance == null) {
+            instance = new FileStorageServiceImpl();
         }
+        return instance;
     }
 
-    @Override
+    BookDao bookDao = ApplicationContextHolder.getBean(BookDao.class);
+    private static final Path rootPath = Path.of("/home/shahriyor/IdeaProjects/lesson-two/apps/library/uploads");
 
+    @Override
     public Uploads upload(Part partFile) {
         try {
             String contentType = partFile.getContentType();
@@ -48,5 +49,10 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (IOException e) {
             throw new RuntimeException("Something wrong try again");
         }
+    }
+
+    @Override
+    public Uploads getByPath(String requestedFile) {
+        return bookDao.getByPath(requestedFile);
     }
 }

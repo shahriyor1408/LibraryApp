@@ -1,15 +1,21 @@
 package uz.jl.lessontwo.service;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 import uz.jl.lessontwo.configs.ApplicationContextHolder;
 import uz.jl.lessontwo.dao.BookDao;
 import uz.jl.lessontwo.dao.Dao;
 import uz.jl.lessontwo.domain.Uploads;
 
 import javax.servlet.http.Part;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.CompletableFuture;
 
 public class FileStorageServiceImpl implements FileStorageService, Dao {
 
@@ -54,5 +60,33 @@ public class FileStorageServiceImpl implements FileStorageService, Dao {
     @Override
     public Uploads getByPath(String requestedFile) {
         return bookDao.getByPath(requestedFile);
+    }
+
+    @Override
+    public Uploads uploadCover(Part file) {
+        try {
+            String contentType = file.getContentType();
+            String originalFilename = file.getSubmittedFileName();
+            long size = file.getSize();
+            String generatedName = System.currentTimeMillis() + ".png";
+            String path = "/uploads/" + generatedName;
+            Uploads uploads = Uploads
+                    .builder()
+                    .contentType(contentType)
+                    .originalName(originalFilename)
+                    .size(size)
+                    .generatedName(generatedName)
+                    .path(path)
+                    .build();
+            Path uploadPath = rootPath.resolve(generatedName);
+            bookDao.save(uploads);
+            PDDocument document = PDDocument.load(file.getInputStream());
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
+            BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(0, 300, ImageType.RGB);
+            ImageIOUtil.writeImage(bufferedImage, uploadPath.toString(), 300);
+            return uploads;
+        } catch (IOException e) {
+            throw new RuntimeException("Something wrong try again");
+        }
     }
 }

@@ -15,11 +15,23 @@
     <title>PendingBookPage</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .user-logOut {
+            display: inline-block;
+            margin-bottom: 5px;
+            font-family: Arial, serif;
+        }
+
+        .text {
+            display: block;
+            font-size: small;
+        }
+    </style>
 </head>
 <body>
 <div class="m-4">
     <div class="user-logOut">
-        <a href="/logout" class="btn btn-warning user-logOut"> Logout </a> Welcome ${username}
+        <a href="/logout" class="btn btn-warning user-logOut"> Logout </a> Pending Books
     </div>
     <!-- Button trigger modal -->
     <nav class="navbar navbar-light bg-light justify-content-between"
@@ -45,12 +57,13 @@
                     <i class="text">language : <i>${book.language.getValue()}</i></i>
                     <i class="text">pageCount : <i>${book.pageCount}</i></i>
                     <i class="text">downloadCount : <i>${book.downloadCount}</i></i>
-                    <br>
-                    <form method="post" action="<c:url value="/adminPage?id=${book.id}"/>">
-                        <button class="btn btn-success mb-4 text-white">Confirm book</button>
-                    </form>
-                    <form method="post" action="<c:url value="/pendingBooks?id=${book.id}"/>" style="margin-top: 1px">
-                        <button class="btn btn-danger mb-4 text-white">Deny Book</button>
+                    <a href="<c:url value="/downloadFile?file=${book.file.path}"/>" style="margin-top: 5px">Download
+                        Book</a>
+                    <br/>
+                    <form method="post" action="<c:url value="/pendingBooks?id=${book.id}"/>">
+                        <button name="yes" class="btn btn-success text-white" style="margin-bottom: 1px">Confirm book
+                        </button>
+                        <button name="no" class="btn btn-danger text-white">Deny Book</button>
                     </form>
                 </div>
             </div>

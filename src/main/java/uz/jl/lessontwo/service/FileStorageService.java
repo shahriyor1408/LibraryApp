@@ -9,4 +9,6 @@ public interface FileStorageService {
     Uploads upload(Part partFile);
 
     Uploads getByPath(String requestedFile);
+
+    Uploads uploadCover(Part file);
 }

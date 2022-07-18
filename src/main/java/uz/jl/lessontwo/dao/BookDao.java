@@ -7,9 +7,6 @@ import uz.jl.lessontwo.configs.HibernateConfigurer;
 import uz.jl.lessontwo.domain.Book;
 import uz.jl.lessontwo.domain.Uploads;
 
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.Types;
 import java.util.List;
 
 public class BookDao implements Dao {
@@ -26,7 +23,7 @@ public class BookDao implements Dao {
         SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.getTransaction().begin();
-        Query<Book> query = currentSession.createQuery("select t from Book t where lower(t.name) like :query and t.status = 'ACTIVE'", Book.class);
+        Query<Book> query = currentSession.createQuery("select t from Book t where (lower(t.name) like lower(:query) or lower(t.author) like lower(:query) or lower(t.description) like lower(:query)) and t.status = 'ACTIVE'", Book.class);
         query.setParameter("query", "%" + search + "%");
         List<Book> books = query.getResultList();
         currentSession.getTransaction().commit();
@@ -56,7 +53,7 @@ public class BookDao implements Dao {
         SessionFactory sessionFactory = HibernateConfigurer.getSessionFactory();
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.getTransaction().begin();
-        Query<Book> query = currentSession.createQuery("select t from Book t where lower(t.name) like :query and t.status = 'ACTIVE'", Book.class);
+        Query<Book> query = currentSession.createQuery("select t from Book t where (lower(t.name) like lower(:query) or lower(t.author) like lower(:query) or lower(t.description) like lower(:query)) and t.status = 'ACTIVE'", Book.class);
         query.setParameter("query", "%" + search + "%");
         query.setFirstResult(i);
         query.setMaxResults(recordsPerPage);

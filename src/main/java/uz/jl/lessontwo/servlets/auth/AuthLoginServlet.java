@@ -4,20 +4,12 @@ import uz.jl.lessontwo.configs.ApplicationContextHolder;
 import uz.jl.lessontwo.configs.PasswordEncoder;
 import uz.jl.lessontwo.dao.UserDao;
 import uz.jl.lessontwo.domain.User;
-import uz.jl.lessontwo.dto.ErrorDto;
-import uz.jl.lessontwo.enums.UserStatus;
 import uz.jl.lessontwo.exceptions.AuthenticationException;
-import uz.jl.lessontwo.exceptions.AuthorizationException;
-import uz.jl.lessontwo.exceptions.NotFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.ServletException;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -42,6 +34,9 @@ public class AuthLoginServlet extends HttpServlet {
             throw new AuthenticationException("Bad Credentials");
         }
 
+        Cookie cookie = new Cookie("session_user", user.getUsername());
+        cookie.setMaxAge(900);
+        resp.addCookie(cookie);
         HttpSession session = req.getSession();
         session.setAttribute("auth_session", username);
         resp.sendRedirect("/");

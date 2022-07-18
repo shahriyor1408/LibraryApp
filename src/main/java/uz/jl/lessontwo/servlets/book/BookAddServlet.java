@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @WebServlet("/bookAdd")
 @MultipartConfig
@@ -33,9 +35,12 @@ public class BookAddServlet extends HttpServlet {
         String description = req.getParameter("description");
         String pageCount = req.getParameter("pageCount");
         Part file = req.getPart("file");
-        Part cover = req.getPart("cover");
-        Uploads fileUpload = fileStorageService.upload(file);
-        Uploads coverUpload = fileStorageService.upload(cover);
+
+        Uploads upload = fileStorageService.upload(file);
+        CompletableFuture.runAsync(() -> {
+            fileStorageService.uploadCover(file);
+        });
+
         Book book = Book.builder()
                 .name(name)
                 .author(author)
@@ -45,8 +50,8 @@ public class BookAddServlet extends HttpServlet {
                 .language(Enum.valueOf(Language.class, language))
                 .pageCount(Integer.parseInt(pageCount))
                 .status(BookStatus.PENDING)
-                .file(fileUpload)
-                .cover(coverUpload)
+                .file(upload)
+                .cover(Uploads.builder().build())
                 .build();
         bookDao.save(book);
         resp.sendRedirect("/");

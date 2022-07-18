@@ -18,7 +18,7 @@
 <body>
 <div class="row">
     <div class="col-6 offset-3">
-        <h2>Are you sure log out</h2>
+        <h2>Are you sure log out?</h2>
         <form method="post">
             <button type="submit" class="btn btn-danger">Yes</button>
             <a href="/" class="btn btn-info">Back</a>

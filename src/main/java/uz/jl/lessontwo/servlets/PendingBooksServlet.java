@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/pendingBooks")
 public class PendingBooksServlet extends HttpServlet {
@@ -28,7 +29,13 @@ public class PendingBooksServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        bookDao.deny(id);
+        String yes = req.getParameter("yes");
+        String no = req.getParameter("no");
+        if (Objects.nonNull(yes)) {
+            bookDao.confirm(id);
+        } else if (Objects.nonNull(no)) {
+            bookDao.deny(id);
+        }
         resp.sendRedirect("/");
     }
 }

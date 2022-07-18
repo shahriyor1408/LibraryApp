@@ -30,7 +30,7 @@ public class HibernateConfigurer {
                 settings.put(Environment.USER, "postgres");
                 settings.put(Environment.PASS, "123");
                 settings.put(Environment.HBM2DDL_AUTO, "update");
-                settings.put(Environment.SHOW_SQL, true);
+                settings.put(Environment.SHOW_SQL, false);
                 settings.put(Environment.FORMAT_SQL, true);
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 

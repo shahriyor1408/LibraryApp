@@ -25,6 +25,7 @@
 
         .text {
             display: block;
+            font-size: small;
         }
     </style>
 
@@ -114,11 +115,6 @@
                                            placeholder="Book pageCount"/>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Cover</label>
-                                    <input type="file" name="cover" class="form-control" placeholder="Book Cover"/>
-                                </div>
-
-                                <div class="form-group mb-3">
                                     <label>Book</label>
                                     <input type="file" name="file" class="form-control" placeholder="Book"/>
                                 </div>
@@ -144,11 +140,10 @@
                     <h5 class="card-title" c:value="${book.name}">${book.name}</h5>
                     <i class="text">author : <i>${book.author}</i></i>
                     <i class="text">description : <i>${book.description}</i></i>
-                    <i class="text">genre : <i>${book.genre.getKey()}</i></i>
-                    <i class="text">language : <i>${book.language.getValue()}</i></i>
+                    <i class="text">genre : <i>${book.genre.key}</i></i>
+                    <i class="text">language : <i>${book.language.value}</i></i>
                     <i class="text">pageCount : <i>${book.pageCount}</i></i>
                     <i class="text">downloadCount : <i>${book.downloadCount}</i></i>
-                    <a href="<c:url value="/downloadFile?file=${book.cover.path}"/>">Download Cover</a>
                     <br/>
                     <a href="<c:url value="/downloadFile?file=${book.file.path}"/>">Download Book</a>
                 </div>
@@ -159,20 +154,22 @@
 <div style="margin-top: 10px">
     <nav aria-label="Page navigation example">
         <ul class="pagination" style="margin-left: 20px">
-
             <c:if test="${currentPage != 1}">
-                <td class="page-item"><a class="page-link" href="book?page=${currentPage - 1}">Previous</a>
+                <td class="page-item"><a class="page-link"
+                                         href="book?search=${search}&page=${currentPage - 1}">Previous</a>
                 </td>
             </c:if>
+
             <table>
                 <tr>
                     <c:forEach begin="1" end="${noOfPages}" var="i">
                         <c:choose>
                             <c:when test="${currentPage eq i}">
-                                <td class="page-item active"><a class="page-link" href="#">${i}</a></td>
+                                <td class=" page-item active"><a class="page-link" href="#">${i}</a></td>
                             </c:when>
                             <c:otherwise>
-                                <td class="page-item"><a class="page-link" href="book?page=${i}">${i}</a></td>
+                                <td class="page-item"><a class="page-link"
+                                                         href="book?search=${search}&page=${i}">${i}</a></td>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -181,9 +178,10 @@
 
             <%--For displaying Next link --%>
             <c:if test="${currentPage lt noOfPages}">
-                <td class="page-item"><a class="page-link" href="book?page=${currentPage + 1}">Next</a></td>
+                <td class=" page-item"><a class="page-link"
+                                          href="book?search=${search}&page=${currentPage + 1}">Next</a>
+                </td>
             </c:if>
-
         </ul>
     </nav>
 </div>

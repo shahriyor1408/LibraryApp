@@ -13,9 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
-import java.util.stream.Stream;
 
 @WebServlet("/")
 public class HomeServlet extends HttpServlet {
@@ -32,13 +30,12 @@ public class HomeServlet extends HttpServlet {
         }
         List<Book> books = bookDao.getAll(search);
 
-        if (Objects.nonNull(authSession)) {
-            req.setAttribute("search", search);
-            req.setAttribute("username", req.getSession().getAttribute("auth_session"));
-            req.setAttribute("genres", Book.Genre.values());
-            req.setAttribute("languages", Language.values());
-            User user = userDao.findByUsername(authSession);
-
+        req.setAttribute("search", search);
+        req.setAttribute("username", req.getSession().getAttribute("auth_session"));
+        req.setAttribute("genres", Book.Genre.values());
+        req.setAttribute("languages", Language.values());
+        User user = userDao.findByUsername(authSession);
+        if (Objects.nonNull(user)) {
             int page = 1;
             int recordsPerPage = 6;
             if (req.getParameter("page") != null)

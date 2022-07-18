@@ -25,6 +25,7 @@
 
         .text {
             display: block;
+            font-size: small;
         }
     </style>
 
@@ -38,11 +39,21 @@
         <a href="/logout" class="btn btn-warning user-logOut"> Logout </a> Welcome ${username}
     </div>
     <!-- Button trigger modal -->
-    <nav class="navbar navbar-light bg-light justify-content-between"
+    <nav class="navbar navbar-light bg-light"
          style="height: 60px;">
         <button type="button" class="btn btn-success mb-4 text-white" data-toggle="modal" data-target="#exampleModal">
             ➕ Add
         </button>
+        <form class="form-inline">
+            <label class="form-label mr-2 me-5">Genre</label>
+            <select class="form-select mr-3 p-2" name="genre" id="genreSearch">
+                <c:forEach items="${genres}" var="genre">
+                    <option c:out value="${genre.name()}">${genre.getKey()}</option>
+                </c:forEach>
+            </select>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit
+            </button>
+        </form>
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
                    value="${search}">
@@ -109,15 +120,9 @@
                                            placeholder="Book pageCount"/>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Cover</label>
-                                    <input type="file" name="cover" class="form-control" placeholder="Book Cover"/>
-                                </div>
-
-                                <div class="form-group mb-3">
                                     <label>Book</label>
                                     <input type="file" name="file" class="form-control" placeholder="Book"/>
                                 </div>
-
                                 <button type="submit" class="btn btn-primary">save</button>
                             </div>
                         </div>
@@ -138,12 +143,11 @@
                 <div class="card-body">
                     <h5 class="card-title" c:value="${book.name}">${book.name}</h5>
                     <i class="text">author : <i>${book.author}</i></i>
-                    <i class="text">description : <i>${book.description}</i></i>
-                    <i class="text">genre : <i>${book.genre.getKey()}</i></i>
-                    <i class="text">language : <i>${book.language.getValue()}</i></i>
+                        <%--                    <i class="text">description : <i>${book.description}</i></i>--%>
+                    <i class="text">genre : <i>${book.genre.key}</i></i>
+                    <i class="text">language : <i>${book.language.value}</i></i>
                     <i class="text">pageCount : <i>${book.pageCount}</i></i>
                     <i class="text">downloadCount : <i>${book.downloadCount}</i></i>
-                    <a href="<c:url value="/downloadFile?file=${book.cover.path}"/>">Download Cover</a>
                     <br/>
                     <a href="<c:url value="/downloadFile?file=${book.file.path}"/>">Download Book</a>
                 </div>
@@ -156,7 +160,8 @@
         <ul class="pagination" style="margin-left: 20px">
 
             <c:if test="${currentPage != 1}">
-                <td class="page-item"><a class="page-link" href="book?page=${currentPage - 1}">Previous</a>
+                <td class="page-item"><a class="page-link"
+                                         href="/book?search=${search}&page=${currentPage - 1}">Previous</a>
                 </td>
             </c:if>
 
@@ -165,10 +170,11 @@
                     <c:forEach begin="1" end="${noOfPages}" var="i">
                         <c:choose>
                             <c:when test="${currentPage eq i}">
-                                <td class="page-item active"><a class="page-link" href="#">${i}</a></td>
+                                <td class=" page-item active"><a class="page-link" href="#">${i}</a></td>
                             </c:when>
                             <c:otherwise>
-                                <td class="page-item"><a class="page-link" href="book?page=${i}">${i}</a></td>
+                                <td class="page-item"><a class="page-link"
+                                                         href="/book?search=${search}&page=${i}">${i}</a></td>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -177,14 +183,16 @@
 
             <%--For displaying Next link --%>
             <c:if test="${currentPage lt noOfPages}">
-                <td class="page-item"><a class="page-link" href="book?page=${currentPage + 1}">Next</a></td>
+                <td class=" page-item"><a class="page-link"
+                                          href="/book?search=${search}&page=${currentPage + 1}">Next</a>
+                </td>
             </c:if>
 
         </ul>
     </nav>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+<script src=" https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"

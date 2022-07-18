@@ -40,10 +40,14 @@
     <!-- Button trigger modal -->
     <nav class="navbar navbar-light bg-light justify-content-between"
          style="height: 60px;">
-        <button type="button" class="btn btn-success mb-4 text-white" data-toggle="modal" data-target="#exampleModal">
-            ➕ Add
-        </button>
-        <a href="<c:url value="/pendingBooks"/>">Pending Books</a>
+        <div>
+            <button type="button" class="btn btn-success mb-4 text-white" data-toggle="modal"
+                    data-target="#exampleModal">
+                ➕ Add
+            </button>
+            <a class="btn btn-success mb-4 text-white" href="${pageContext.request.contextPath}/pendingBooks">Pending
+                Books</a>
+        </div>
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
                    value="${search}">
@@ -144,7 +148,7 @@
                     <i class="text">language : <i>${book.language.getValue()}</i></i>
                     <i class="text">pageCount : <i>${book.pageCount}</i></i>
                     <i class="text">downloadCount : <i>${book.downloadCount}</i></i>
-                    <a href="<c:url value="/downloadCover?cover=${book.cover.path}"/>">Download Cover</a>
+                    <a href="<c:url value="/downloadFile?file=${book.cover.path}"/>">Download Cover</a>
                     <br/>
                     <a href="<c:url value="/downloadFile?file=${book.file.path}"/>">Download Book</a>
                 </div>

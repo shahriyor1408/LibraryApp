@@ -143,7 +143,7 @@
                     <i class="text">language : <i>${book.language.getValue()}</i></i>
                     <i class="text">pageCount : <i>${book.pageCount}</i></i>
                     <i class="text">downloadCount : <i>${book.downloadCount}</i></i>
-                    <a href="<c:url value="/downloadCover?cover=${book.cover.path}"/>">Download Cover</a>
+                    <a href="<c:url value="/downloadFile?file=${book.cover.path}"/>">Download Cover</a>
                     <br/>
                     <a href="<c:url value="/downloadFile?file=${book.file.path}"/>">Download Book</a>
                 </div>

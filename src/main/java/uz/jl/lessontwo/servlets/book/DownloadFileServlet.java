@@ -4,6 +4,7 @@ import uz.jl.lessontwo.configs.ApplicationContextHolder;
 import uz.jl.lessontwo.domain.Uploads;
 import uz.jl.lessontwo.exceptions.NotFoundException;
 import uz.jl.lessontwo.service.FileStorageService;
+import uz.jl.lessontwo.service.FileStorageServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -19,7 +20,7 @@ import java.util.Objects;
 
 @WebServlet("/downloadFile")
 public class DownloadFileServlet extends HttpServlet {
-    FileStorageService fileStorageService = ApplicationContextHolder.getBean(FileStorageService.class);
+    FileStorageService fileStorageService = ApplicationContextHolder.getBean(FileStorageServiceImpl.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

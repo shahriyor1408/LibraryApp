@@ -14,7 +14,7 @@ public class ApplicationContextHolder {
         return switch (clazz.getSimpleName()) {
             case "UserDao" -> (T) UserDao.getInstance();
             case "BookDao" -> (T) BookDao.getInstance();
-            case "FileStorageService" -> (T) FileStorageServiceImpl.getInstance();
+            case "FileStorageServiceImpl" -> (T) FileStorageServiceImpl.getInstance();
             default -> throw new BeanNotFoundException("Bean not found");
         };
     }

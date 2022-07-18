@@ -43,6 +43,7 @@
         <button type="button" class="btn btn-success mb-4 text-white" data-toggle="modal" data-target="#exampleModal">
             ➕ Add
         </button>
+        <a href="<c:url value="/pendingBooks"/>">Pending Books</a>
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
                    value="${search}">

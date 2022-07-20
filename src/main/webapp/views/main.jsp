@@ -45,16 +45,6 @@
             ➕ Add
         </button>
         <form class="form-inline">
-            <label class="form-label mr-2 me-5">Genre</label>
-            <select class="form-select mr-3 p-2" name="genre" id="genreSearch">
-                <c:forEach items="${genres}" var="genre">
-                    <option c:out value="${genre.name()}">${genre.getKey()}</option>
-                </c:forEach>
-            </select>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit
-            </button>
-        </form>
-        <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
                    value="${search}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search

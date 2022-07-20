@@ -37,9 +37,16 @@ public class BookAddServlet extends HttpServlet {
         Part file = req.getPart("file");
 
         Uploads upload = fileStorageService.upload(file);
-        CompletableFuture.runAsync(() -> {
-            fileStorageService.uploadCover(file);
+        CompletableFuture<Uploads> future = CompletableFuture.supplyAsync(() -> {
+            return fileStorageService.uploadCover(file);
         });
+
+        Uploads uploads;
+        try {
+            uploads = future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
         Book book = Book.builder()
                 .name(name)
@@ -51,7 +58,7 @@ public class BookAddServlet extends HttpServlet {
                 .pageCount(Integer.parseInt(pageCount))
                 .status(BookStatus.PENDING)
                 .file(upload)
-                .cover(Uploads.builder().build())
+                .cover(uploads)
                 .build();
         bookDao.save(book);
         resp.sendRedirect("/");

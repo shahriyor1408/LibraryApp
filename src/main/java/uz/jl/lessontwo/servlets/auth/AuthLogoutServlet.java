@@ -3,10 +3,7 @@ package uz.jl.lessontwo.servlets.auth;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/logout")
@@ -21,6 +18,13 @@ public class AuthLogoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.removeAttribute("auth_session");
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getValue().equals("session_user")) {
+                cookie.setMaxAge(0);
+                resp.addCookie(cookie);
+            }
+        }
         resp.sendRedirect("/login");
     }
 }
